@@ -30,7 +30,7 @@ class EmployeeController extends Controller
             $query->whereHas('user', fn($u) => $u->where('status', $request->status));
         }
 
-        $employees = $query->paginate(15)->withQueryString();
+        $employees = $query->paginate(10)->withQueryString();
         $shifts    = Shift::all();
 
         return view('hr.employees.index', compact('employees', 'shifts'));
@@ -42,8 +42,8 @@ class EmployeeController extends Controller
 
         $recentAttendance = Attendance::where('employee_id', $employee->employee_id)
             ->orderBy('work_date', 'desc')
-            ->take(10)
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return view('hr.employees.show', compact('employee', 'recentAttendance'));
     }

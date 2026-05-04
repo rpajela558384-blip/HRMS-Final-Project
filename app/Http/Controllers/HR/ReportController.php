@@ -36,7 +36,7 @@ class ReportController extends Controller
         if ($request->filled('att_to')) {
             $attendanceQuery->whereDate('work_date', '<=', $request->att_to);
         }
-        $attendanceRecords = $attendanceQuery->paginate(15, ['*'], 'att_page')->withQueryString();
+        $attendanceRecords = $attendanceQuery->paginate(10, ['*'], 'att_page')->withQueryString();
 
         // Leave report
         $leaveQuery = LeaveRequest::with(['employee.user', 'leaveType'])
@@ -48,7 +48,7 @@ class ReportController extends Controller
         if ($request->filled('leave_status')) {
             $leaveQuery->where('status', $request->leave_status);
         }
-        $leaveRecords = $leaveQuery->paginate(15, ['*'], 'leave_page')->withQueryString();
+        $leaveRecords = $leaveQuery->paginate(10, ['*'], 'leave_page')->withQueryString();
 
         // OT report
         $otQuery = OvertimeRequest::with(['employee.user'])
@@ -60,7 +60,7 @@ class ReportController extends Controller
         if ($request->filled('ot_status')) {
             $otQuery->where('status', $request->ot_status);
         }
-        $otRecords = $otQuery->paginate(15, ['*'], 'ot_page')->withQueryString();
+        $otRecords = $otQuery->paginate(10, ['*'], 'ot_page')->withQueryString();
 
         $activeTab = $request->get('tab', 'attendance');
 

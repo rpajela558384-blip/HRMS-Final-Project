@@ -35,7 +35,7 @@ class AttendanceController extends Controller
             };
         }
 
-        $records         = $query->paginate(15)->withQueryString();
+        $records         = $query->paginate(10)->withQueryString();
         $workingDay      = WorkingDay::today();
         $todayAttendance = Attendance::where('employee_id', $employee->employee_id)
             ->whereDate('work_date', today())

@@ -27,7 +27,7 @@ class AccountController extends Controller
             $query->where('username', 'like', '%' . $request->search . '%');
         }
 
-        $users  = $query->latest('created_at')->paginate(15)->withQueryString();
+        $users  = $query->latest('created_at')->paginate(10)->withQueryString();
         $shifts = Shift::all();
 
         return view('admin.accounts.index', compact('users', 'shifts'));

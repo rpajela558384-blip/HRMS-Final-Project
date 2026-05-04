@@ -57,11 +57,15 @@
 
     {{-- Recent Attendance --}}
     <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-        <div class="px-4 py-3 border-b border-slate-100">
-            <h3 class="text-sm font-semibold text-slate-700">Recent Attendance (last 10)</h3>
+        <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="text-sm font-semibold text-slate-700">Attendance History</h3>
+            @if($recentAttendance->hasPages())
+                <span class="text-xs text-slate-400">{{ $recentAttendance->firstItem() }}-{{ $recentAttendance->lastItem() }} of {{ $recentAttendance->total() }}</span>
+            @endif
         </div>
         <table class="w-full text-sm">
             <thead class="bg-slate-50 border-b"><tr>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase w-12">#</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Date</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Time In</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Time Out</th>
@@ -71,6 +75,7 @@
             <tbody class="divide-y divide-slate-50">
                 @forelse($recentAttendance as $rec)
                     <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-3 text-slate-400 text-xs">{{ $recentAttendance->firstItem() + $loop->index }}</td>
                         <td class="px-4 py-3 font-medium">{{ $rec->work_date->format('M d, Y') }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $rec->time_in?->format('h:i A') ?? '—' }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $rec->time_out?->format('h:i A') ?? '—' }}</td>
@@ -84,10 +89,13 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="px-4 py-8 text-center text-slate-400">No attendance records.</td></tr>
+                    <tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">No attendance records.</td></tr>
                 @endforelse
             </tbody>
         </table>
+        @if($recentAttendance->hasPages())
+            <div class="px-4 py-3 border-t border-slate-100">{{ $recentAttendance->links() }}</div>
+        @endif
     </div>
 </div>
 </x-app-layout>

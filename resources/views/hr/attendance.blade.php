@@ -50,7 +50,7 @@
                     </x-slot>
                 </x-confirm-modal>
             @else
-                {{-- Day is closed or not yet created: Open and Re-open both available --}}
+                {{-- Day is closed or not yet created: only Open Day --}}
                 <x-confirm-modal id="hr-day-open" title="Open Working Day" message="Open today as a working day?">
                     <x-slot name="trigger">
                         <button @click="$dispatch('open-modal-hr-day-open')" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl text-sm transition">Open Day</button>
@@ -61,19 +61,6 @@
                         </form>
                     </x-slot>
                 </x-confirm-modal>
-                @if($workingDay)
-                    {{-- Day exists but is closed: Re-open is available --}}
-                    <x-confirm-modal id="hr-day-reopen" title="Re-open Working Day" message="Re-open today? This allows new time-ins again.">
-                        <x-slot name="trigger">
-                            <button @click="$dispatch('open-modal-hr-day-reopen')" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-xl text-sm transition">Re-open Day</button>
-                        </x-slot>
-                        <x-slot name="action">
-                            <form method="POST" action="{{ route('hr.working-day.reopen') }}">@csrf
-                                <button type="submit" class="px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-semibold">Confirm</button>
-                            </form>
-                        </x-slot>
-                    </x-confirm-modal>
-                @endif
             @endif
         </div>
     </div>
@@ -102,6 +89,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 border-b border-slate-100">
                     <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase w-10">#</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Date</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Time In</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Time Out</th>
@@ -112,6 +100,7 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($myRecords as $rec)
                         <tr class="hover:bg-slate-50 transition">
+                            <td class="px-4 py-3 text-slate-400 text-xs">{{ $myRecords->firstItem() + $loop->index }}</td>
                             <td class="px-4 py-3 font-medium">{{ $rec->work_date->format('M d, Y') }}</td>
                             <td class="px-4 py-3 text-slate-600">{{ $rec->time_in?->format('h:i A') ?? '—' }}</td>
                             <td class="px-4 py-3 text-slate-600">{{ $rec->time_out?->format('h:i A') ?? '—' }}</td>
@@ -126,7 +115,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="5" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
+                        <tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -152,6 +141,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 border-b border-slate-100">
                     <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase w-10">#</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Employee</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Date</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Time In</th>
@@ -164,6 +154,7 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($allRecords as $rec)
                         <tr class="hover:bg-slate-50 transition">
+                            <td class="px-4 py-3 text-slate-400 text-xs">{{ $allRecords->firstItem() + $loop->index }}</td>
                             <td class="px-4 py-3 font-medium">{{ $rec->employee?->full_name ?: ($rec->employee?->user?->username ?? '—') }}</td>
                             <td class="px-4 py-3">{{ $rec->work_date->format('M d, Y') }}</td>
                             <td class="px-4 py-3 text-slate-600">{{ $rec->time_in?->format('h:i A') ?? '—' }}</td>
@@ -179,7 +170,7 @@
                                 </div>
                             </td>
                             <td class="px-4 py-3">
-                                @if($rec->time_out && $rec->work_date->isToday())
+                                @if($rec->time_out && $rec->work_date->isToday() && $workingDay && $workingDay->isOpen())
                                     <x-confirm-modal id="undo-{{ $rec->attendance_id }}" title="Undo Time-Out" message="Clear time-out for {{ $rec->employee?->full_name ?? 'this employee' }} on {{ $rec->work_date->format('M d') }}?">
                                         <x-slot name="trigger">
                                             <button @click="$dispatch('open-modal-undo-{{ $rec->attendance_id }}')" class="px-2 py-1 text-xs bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-lg font-medium transition">Undo Timeout</button>
@@ -196,7 +187,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="7" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
+                        <tr><td colspan="8" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
                     @endforelse
                 </tbody>
             </table>

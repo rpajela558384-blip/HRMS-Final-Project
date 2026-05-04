@@ -32,6 +32,7 @@
         <table class="w-full text-sm">
             <thead class="bg-slate-50 border-b border-slate-100">
                 <tr>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase w-10">#</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Name</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Username</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Shift</th>
@@ -44,6 +45,7 @@
             <tbody class="divide-y divide-slate-50">
                 @forelse($employees as $emp)
                     <tr class="hover:bg-slate-50 transition">
+                        <td class="px-4 py-3 text-slate-400 text-xs">{{ $employees->firstItem() + $loop->index }}</td>
                         <td class="px-4 py-3 font-medium text-slate-800">{{ $emp->full_name ?: '—' }}</td>
                         <td class="px-4 py-3 text-slate-500">{{ $emp->user?->username }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $emp->shift?->shift_name ?? '—' }}</td>
@@ -56,7 +58,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="7" class="px-4 py-8 text-center text-slate-400">No employees found.</td></tr>
+                    <tr><td colspan="8" class="px-4 py-8 text-center text-slate-400">No employees found.</td></tr>
                 @endforelse
             </tbody>
         </table>

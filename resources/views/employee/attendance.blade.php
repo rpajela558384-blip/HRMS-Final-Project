@@ -80,6 +80,7 @@
         <table class="w-full text-sm">
             <thead class="bg-slate-50 border-b border-slate-100">
                 <tr>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-10">#</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Date</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Time In</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Time Out</th>
@@ -90,6 +91,7 @@
             <tbody class="divide-y divide-slate-50">
                 @forelse($records as $rec)
                     <tr class="hover:bg-slate-50 transition">
+                        <td class="px-4 py-3 text-slate-400 text-xs">{{ $records->firstItem() + $loop->index }}</td>
                         <td class="px-4 py-3 font-medium text-slate-800">{{ $rec->work_date->format('M d, Y') }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $rec->time_in?->format('h:i A') ?? '—' }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $rec->time_out?->format('h:i A') ?? '—' }}</td>
@@ -109,7 +111,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="px-4 py-8 text-center text-slate-400">No attendance records found.</td></tr>
+                    <tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">No attendance records found.</td></tr>
                 @endforelse
             </tbody>
         </table>

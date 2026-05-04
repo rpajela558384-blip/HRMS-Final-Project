@@ -52,6 +52,7 @@
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 border-b border-slate-100"><tr>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase w-10">#</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Employee</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Date</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Time In</th>
@@ -63,6 +64,7 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($attendanceRecords as $rec)
                         <tr class="hover:bg-slate-50">
+                            <td class="px-4 py-3 text-slate-400 text-xs">{{ $attendanceRecords->firstItem() + $loop->index }}</td>
                             <td class="px-4 py-3 font-medium">{{ $rec->employee?->full_name ?: $rec->employee?->user?->username }}</td>
                             <td class="px-4 py-3">{{ $rec->work_date->format('M d, Y') }}</td>
                             <td class="px-4 py-3 text-slate-600">{{ $rec->time_in?->format('h:i A') ?? '—' }}</td>
@@ -77,7 +79,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="7" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
+                        <tr><td colspan="8" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -115,6 +117,7 @@
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 border-b border-slate-100"><tr>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase w-10">#</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Employee</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Type</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Dates</th>
@@ -126,6 +129,7 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($leaveRecords as $rec)
                         <tr class="hover:bg-slate-50">
+                            <td class="px-4 py-3 text-slate-400 text-xs">{{ $leaveRecords->firstItem() + $loop->index }}</td>
                             <td class="px-4 py-3 font-medium">{{ $rec->employee?->full_name ?: $rec->employee?->user?->username }}</td>
                             <td class="px-4 py-3">{{ $rec->leaveType->name }}</td>
                             <td class="px-4 py-3 text-slate-600 whitespace-nowrap">{{ $rec->start_date->format('M d') }} – {{ $rec->end_date->format('M d, Y') }}</td>
@@ -135,7 +139,7 @@
                             <td class="px-4 py-3 text-slate-400 text-xs">{{ $rec->created_at->format('M d, Y') }}</td>
                         </tr>
                     @empty
-                        <tr><td colspan="7" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
+                        <tr><td colspan="8" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -165,6 +169,7 @@
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 border-b border-slate-100"><tr>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase w-10">#</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Employee</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Date</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Requested End</th>
@@ -175,6 +180,7 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($otRecords as $rec)
                         <tr class="hover:bg-slate-50">
+                            <td class="px-4 py-3 text-slate-400 text-xs">{{ $otRecords->firstItem() + $loop->index }}</td>
                             <td class="px-4 py-3 font-medium">{{ $rec->employee?->full_name ?: $rec->employee?->user?->username }}</td>
                             <td class="px-4 py-3">{{ $rec->work_date->format('M d, Y') }}</td>
                             <td class="px-4 py-3 text-slate-600">{{ \Carbon\Carbon::parse($rec->requested_end_time)->format('h:i A') }}</td>
@@ -183,7 +189,7 @@
                             <td class="px-4 py-3 text-slate-400 text-xs">{{ $rec->created_at->format('M d, Y') }}</td>
                         </tr>
                     @empty
-                        <tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
+                        <tr><td colspan="7" class="px-4 py-8 text-center text-slate-400">No records found.</td></tr>
                     @endforelse
                 </tbody>
             </table>

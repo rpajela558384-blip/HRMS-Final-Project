@@ -70,7 +70,7 @@ class AttendanceController extends Controller
             };
         }
 
-        $allRecords  = $allQuery->paginate(15, ['*'], 'all_page')->withQueryString();
+        $allRecords  = $allQuery->paginate(10, ['*'], 'all_page')->withQueryString();
         $activeTab   = $request->get('tab', 'mine');
 
         return view('hr.attendance', compact(
@@ -177,6 +177,11 @@ class AttendanceController extends Controller
 
         if ($attendance->work_date->toDateString() !== today()->toDateString()) {
             return back()->with('error', 'Undo time-out is only allowed for today\'s records.');
+        }
+
+        $workingDay = WorkingDay::today();
+        if (!$workingDay || !$workingDay->isOpen()) {
+            return back()->with('error', 'Undo time-out is not allowed when the working day is closed.');
         }
 
         $attendance->update([

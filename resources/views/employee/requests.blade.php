@@ -67,6 +67,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 border-b border-slate-100">
                     <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase w-10">#</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Type</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Dates</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Days</th>
@@ -78,6 +79,7 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($leaveRequests as $req)
                         <tr class="hover:bg-slate-50 transition">
+                            <td class="px-4 py-3 text-slate-400 text-xs">{{ $leaveRequests->firstItem() + $loop->index }}</td>
                             <td class="px-4 py-3 font-medium">{{ $req->leaveType->name }}</td>
                             <td class="px-4 py-3 text-slate-600">{{ $req->start_date->format('M d') }} – {{ $req->end_date->format('M d, Y') }}</td>
                             <td class="px-4 py-3 text-slate-600">{{ $req->days_requested }}</td>
@@ -91,7 +93,7 @@
                             <td class="px-4 py-3 text-slate-400 text-xs">{{ $req->created_at->format('M d, Y') }}</td>
                         </tr>
                     @empty
-                        <tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">No leave requests yet.</td></tr>
+                        <tr><td colspan="7" class="px-4 py-8 text-center text-slate-400">No leave requests yet.</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -118,6 +120,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 border-b border-slate-100">
                     <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase w-10">#</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Date</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Requested End</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Reason</th>
@@ -128,6 +131,7 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($otRequests as $ot)
                         <tr class="hover:bg-slate-50 transition">
+                            <td class="px-4 py-3 text-slate-400 text-xs">{{ $otRequests->firstItem() + $loop->index }}</td>
                             <td class="px-4 py-3 font-medium">{{ $ot->work_date->format('M d, Y') }}</td>
                             <td class="px-4 py-3 text-slate-600">{{ \Carbon\Carbon::parse($ot->requested_end_time)->format('h:i A') }}</td>
                             <td class="px-4 py-3">
@@ -140,7 +144,7 @@
                             <td class="px-4 py-3 text-slate-400 text-xs">{{ $ot->created_at->format('M d, Y') }}</td>
                         </tr>
                     @empty
-                        <tr><td colspan="5" class="px-4 py-8 text-center text-slate-400">No overtime requests yet.</td></tr>
+                        <tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">No overtime requests yet.</td></tr>
                     @endforelse
                 </tbody>
             </table>
